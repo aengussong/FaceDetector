@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MainButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">@dimen/title_btn_width</item>
+        <item name="android:layout_height">@dimen/title_btn_height</item>
+        <item name="android:textSize">@dimen/title_btn_text_size</item>
+    </style>
+
 </resources>
