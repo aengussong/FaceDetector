@@ -33,6 +33,7 @@ abstract class BaseFaceProcessor<T : Any> {
      * @param callback - callback, that will be called if some faces were detected on provided camera data,
      * provides [Bitmap] representation of camera data  and list of cropped faces in [Bitmap] representation
      * */
+    //todo process in background thread?
     open fun processData(data: T, callback: (wholePhoto:Bitmap, croppedFaces:List<Bitmap>) -> Unit) {
         val faces = isFacePresent(data)
         if (faces.isNotEmpty()) {

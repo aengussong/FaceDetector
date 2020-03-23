@@ -10,4 +10,7 @@
     <string name="err_ocvl_install">OpenCV library installation has been canceled by the user.</string>
     <string name="err_ocvl_manager">This version of OpenCV Manager Service is incompatible with the app. Possibly, a service update is required.</string>
     <string name="err_ocvl_failed">OpenCV library initialization has failed.</string>
+
+    <string name="result_tab_whole_image">Captured</string>
+    <string name="result_tab_face">Face %d</string>
 </resources>

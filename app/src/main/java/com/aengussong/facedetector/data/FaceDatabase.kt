@@ -7,7 +7,7 @@ import com.aengussong.facedetector.app.FaceDetectorApp
 
 const val DATABASE_NAME = "face_database"
 
-@Database(entities = [SessionEntity::class], version = 1)
+@Database(entities = [SessionEntity::class], version = 1, exportSchema = false)
 abstract class FaceDatabase : RoomDatabase() {
     abstract fun sessionDao(): SessionDao
 
