@@ -18,14 +18,12 @@ class OpenCLCameraActivity : BaseCameraActivity<Mat>(), CameraBridgeViewBase.CvC
 
      override val faceProcessor:BaseFaceProcessor<Mat> = OpenCLFaceProcessor()
 
-    //todo add loader for user friendly screen switch?
     override val contentViewRes: Int
         get() = R.layout.activity_camera
 
     override val faceRepository: FaceRepository
         get() = FaceRepositoryImpl()
 
-    //todo ???
     private var grayscaleImage: Mat? = null
     private var absoluteFaceSize = 0.0
 
@@ -42,7 +40,6 @@ class OpenCLCameraActivity : BaseCameraActivity<Mat>(), CameraBridgeViewBase.CvC
     }
 
     override fun initLoader() {
-        //todo should destroy something on activity stop?
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, openCvLoaderCallback)
     }
 
@@ -78,7 +75,6 @@ class OpenCLCameraActivity : BaseCameraActivity<Mat>(), CameraBridgeViewBase.CvC
 
     override fun onCameraFrame(aInputFrame: Mat?): Mat? {
         Imgproc.cvtColor(aInputFrame, grayscaleImage, Imgproc.COLOR_RGBA2RGB)
-        //todo add some kind of throttling for camera frames
         aInputFrame?.let { processData(it) }
         return aInputFrame
     }

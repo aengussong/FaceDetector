@@ -3,4 +3,6 @@
     <dimen name="title_btn_width">200dp</dimen>
     <dimen name="title_btn_height">100dp</dimen>
     <dimen name="title_btn_text_size">20sp</dimen>
+    <dimen name="list_padding">20dp</dimen>
+    <dimen name="list_text_size">16sp</dimen>
 </resources>

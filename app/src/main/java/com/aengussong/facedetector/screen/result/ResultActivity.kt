@@ -10,6 +10,7 @@ import com.aengussong.facedetector.data.FaceRepository
 import com.aengussong.facedetector.data.FaceRepositoryImpl
 import com.google.android.material.tabs.TabLayoutMediator
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_result.*
@@ -18,8 +19,8 @@ const val PHOTO_ID_EXTRA = "photo_id_extra"
 
 class ResultActivity : AppCompatActivity() {
 
-    //todo add presenter
     private val repository: FaceRepository = FaceRepositoryImpl()
+    private val disposable = CompositeDisposable()
 
     companion object {
         fun getIntent(context: Context, photoId: String): Intent {
@@ -29,18 +30,21 @@ class ResultActivity : AppCompatActivity() {
         }
     }
 
-    //todo add loader?
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        //todo dispose
-        repository.getFaces(intent.getStringExtra(PHOTO_ID_EXTRA))
+        disposable.add(repository.getFaces(intent.getStringExtra(PHOTO_ID_EXTRA))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { list ->
                 displayData(list)
-            }
+            })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
     }
 
     private fun displayData(faces: List<Bitmap>) {

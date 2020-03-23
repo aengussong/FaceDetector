@@ -4,24 +4,25 @@ import android.content.Context.MODE_PRIVATE
 import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.paging.PagedList
+import androidx.paging.toObservable
 import com.aengussong.facedetector.app.FaceDetectorApp
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 const val FACES_DIRECTORY = "faces"
 const val IMAGE_EXTENTION = ".jpg"
 const val PREFIX_DELIMITER = "_"
 const val FACE_PREFIX = "face"
 
+const val PAGE_SIZE = 10
+
 class FaceRepositoryImpl : FaceRepository {
 
-    var db: FaceDatabase = FaceDatabase.getInstance()
-
-    //todo implement FileStorage and DbStorage
-
+    private val db: FaceDatabase = FaceDatabase.getInstance()
     private val sdf = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
 
     override fun saveData(photo: Bitmap, croppedFaces: List<Bitmap>): String {
@@ -48,21 +49,27 @@ class FaceRepositoryImpl : FaceRepository {
         }
     }
 
+    override fun getPagedSessions(): Observable<PagedList<SessionEntity>> {
+        return db.sessionDao().getPagedSessions().toObservable(pageSize = PAGE_SIZE)
+    }
 
     private fun getTimestamp(): String = sdf.format(Date())
+
+    private fun getImagePath(timestamp: String, facePrefix: Int): File {
+        val cw = ContextWrapper(FaceDetectorApp.appContext)
+        val directory: File = cw.getDir(FACES_DIRECTORY, MODE_PRIVATE)
+        return File(directory, formFileName(timestamp, facePrefix))
+    }
 
     private fun saveToInternalStorage(
         bitmapImage: Bitmap,
         timestamp: String,
         facePrefix: Int = -1
     ) {
-        val cw = ContextWrapper(FaceDetectorApp.appContext)
-        val directory: File = cw.getDir(FACES_DIRECTORY, MODE_PRIVATE)
-        val imagePath = File(directory, formFileName(timestamp, facePrefix))
+        val imagePath = getImagePath(timestamp, facePrefix)
         var fos: FileOutputStream? = null
         try {
             fos = FileOutputStream(imagePath)
-            //todo compress a little bit more
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -81,10 +88,9 @@ class FaceRepositoryImpl : FaceRepository {
     ): Bitmap? {
         var bitmap: Bitmap? = null
         try {
-            //todo code duplication
             val cw = ContextWrapper(FaceDetectorApp.appContext)
             val directory: File = cw.getDir(FACES_DIRECTORY, MODE_PRIVATE)
-            val imagePath = File(directory, formFileName(timestamp, facePrefix))
+            val imagePath = getImagePath(timestamp, facePrefix)
 
             bitmap = BitmapFactory.decodeStream(FileInputStream(imagePath))
         } catch (e: FileNotFoundException) {

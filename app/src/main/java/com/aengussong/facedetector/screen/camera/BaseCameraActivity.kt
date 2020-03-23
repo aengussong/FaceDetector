@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aengussong.facedetector.data.FaceRepository
 
 abstract class BaseCameraActivity<T:Any> : AppCompatActivity() {
-    //todo move to presenter
     abstract val faceProcessor: BaseFaceProcessor<T>
     abstract val faceRepository: FaceRepository
 
@@ -45,7 +44,6 @@ abstract class BaseCameraActivity<T:Any> : AppCompatActivity() {
      * @data - data from camera
      * */
     fun processData(data: T) {
-        //todo move to presenter
         faceProcessor.processData(data) { wholeImage, croppedFaces ->
             val imageId = faceRepository.saveData(wholeImage, croppedFaces)
             displayResult(imageId)

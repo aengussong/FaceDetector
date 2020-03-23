@@ -44,7 +44,6 @@ class OpenCLFaceProcessor : BaseFaceProcessor<Mat>() {
         return bitmap
     }
 
-    //todo merge somehow init functions into one
     fun initOpenCvVariables(grayscaleImage: Mat?, absoluteFaceSize: Double) {
         this.grayscaleImage = grayscaleImage
         this.absoluteFaceSize = absoluteFaceSize
@@ -53,7 +52,6 @@ class OpenCLFaceProcessor : BaseFaceProcessor<Mat>() {
     //init classifier from xml file
     fun initOpenCvDependencies(context: Context) {
         try {
-            //todo can be refactored to read raw resource path right away, without creating temp file?
             val iStream: InputStream =
                 context.resources.openRawResource(R.raw.haarcascade_frontalface_default)
             val cascadeDir: File = context.getDir("cascade", Context.MODE_PRIVATE)

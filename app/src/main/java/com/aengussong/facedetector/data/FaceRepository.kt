@@ -1,6 +1,8 @@
 package com.aengussong.facedetector.data
 
 import android.graphics.Bitmap
+import androidx.paging.PagedList
+import io.reactivex.Observable
 import io.reactivex.Single
 
 interface FaceRepository {
@@ -22,4 +24,9 @@ interface FaceRepository {
      * @return returns all images, associated with this session
      * */
     fun getFaces(timestamp: String): Single<List<Bitmap>>
+
+    /**
+     * @returns paged list for session
+     * */
+    fun getPagedSessions(): Observable<PagedList<SessionEntity>>
 }
