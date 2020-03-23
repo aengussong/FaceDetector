@@ -2,4 +2,12 @@
     <string name="app_name">FaceDetector</string>
     <string name="start">Start</string>
     <string name="list">List</string>
+
+    <string name="err_generic">Something went wrong</string>
+
+    <!--OpenCV loader errors-->
+    <string name="err_ocvl_market">Google Play Market cannot be invoked.</string>
+    <string name="err_ocvl_install">OpenCV library installation has been canceled by the user.</string>
+    <string name="err_ocvl_manager">This version of OpenCV Manager Service is incompatible with the app. Possibly, a service update is required.</string>
+    <string name="err_ocvl_failed">OpenCV library initialization has failed.</string>
 </resources>

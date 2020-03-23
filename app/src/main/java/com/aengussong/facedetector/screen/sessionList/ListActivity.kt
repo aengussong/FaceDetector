@@ -1,7 +1,8 @@
-package com.aengussong.facedetector
+package com.aengussong.facedetector.screen.sessionList
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.aengussong.facedetector.R
 
 class ListActivity : AppCompatActivity() {
 
